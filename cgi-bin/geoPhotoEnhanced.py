@@ -73,11 +73,14 @@ def gpsLoop(inParams):
     data, xyzPos = gpsChangeHandler1(1)
     gpsLog.write("sysTime, gpsTime, Lat, Lon, Alt, Heading, Velocity\n")
     gpsLog.write(data)
+    logCounter = 0
     while True:
+        logCounter = logCounter+1
         time.sleep(0.1)
         data, xyzPos = gpsChangeHandler1(1)
         gpsLog.write(data)
-        gpsLog.flush()
+        if logCounter%10==0:
+            gpsLog.flush()
         
 
 
