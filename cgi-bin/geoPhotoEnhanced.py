@@ -55,13 +55,14 @@ def gpsLoop(inParams):
     #change handler
     def gpsChangeHandler1(e):
         gps_time = gps.getTime().toString()
+        gps_date = gps.getDate().toString()
         gps_lat = gps.getLatitude()
         gps_lon = gps.getLongitude()
         gps_alt = gps.getAltitude()    
         gps_heading = gps.getHeading()
         gps_vel = gps.getVelocity()
         time1 = str(datetime.datetime.now())
-        dataElems = [time1, gps_time, gps_lat, gps_lon,gps_alt,gps_heading,gps_vel]
+        dataElems = [time1, gps_time, gps_date, gps_lat, gps_lon,gps_alt,gps_heading,gps_vel]
         dataElems = [str(x) for x in dataElems]
         return ','.join(dataElems)+'\n', (gps_lat, gps_lon, gps_alt)
         #(','.join(dataElems)+'\n')
@@ -71,12 +72,13 @@ def gpsLoop(inParams):
     #gps.setOnPositionChangeHandler(gpsChangeHandler1)
 
     data, xyzPos = gpsChangeHandler1(1)
-    gpsLog.write("sysTime, gpsTime, Lat, Lon, Alt, Heading, Velocity\n")
+    gpsLog.write("sysTime, gpsTime, gpsDate, Lat, Lon, Alt, Heading, Velocity\n")
     gpsLog.write(data)
     logCounter = 0
     while True:
         logCounter = logCounter+1
-        time.sleep(0.1)
+        #tune sleep timer to image capture rate...
+        time.sleep(0.18)
         data, xyzPos = gpsChangeHandler1(1)
         gpsLog.write(data)
         if logCounter%10==0:
